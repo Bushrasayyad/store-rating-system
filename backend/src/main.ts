@@ -1,40 +1,24 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe, BadRequestException } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
-import cors from 'cors';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
-  app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+  app.enableCors({
+    origin: ['http://localhost:3000', 'https://*.onrender.com', '*'],
     credentials: true,
-  }));
+  });
   
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-      exceptionFactory: (errors) => {
-        const formattedErrors = errors.reduce((acc, error) => {
-          const constraints = error.constraints;
-          const messages = Object.values(constraints);
-          acc[error.property] = messages;
-          return acc;
-        }, {});
-        return new BadRequestException({
-          statusCode: 400,
-          message: 'Validation failed',
-          errors: formattedErrors,
-        });
-      },
-    }),
-  );
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    transform: true,
+  }));
   
   app.setGlobalPrefix('api');
   
-  await app.listen(process.env.PORT || 5000);
-  console.log(`🚀 Application is running on: http://localhost:${process.env.PORT || 5000}`);
+  const port = process.env.PORT || 5000;
+  await app.listen(port, '0.0.0.0');
+  console.log(`🚀 Application is running on: http://localhost:${port}`);
 }
 bootstrap();
