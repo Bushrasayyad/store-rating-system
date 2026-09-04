@@ -1,0 +1,102 @@
+# fix-all.ps1
+Write-Host "🔧 Fixing everything..." -ForegroundColor Green
+
+cd C:\Users\mubushera\store-rating-app\frontend
+
+# Fix package.json
+Write-Host "Fixing package.json..." -ForegroundColor Yellow
+@"
+{
+  "name": "store-rating-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.0",
+    "axios": "^1.4.0",
+    "@tanstack/react-query": "^4.29.0",
+    "react-hook-form": "^7.45.0",
+    "@hookform/resolvers": "^3.3.0",
+    "zod": "^3.21.4",
+    "date-fns": "^2.30.0",
+    "react-hot-toast": "^2.4.0",
+    "react-icons": "^4.10.1",
+    "react-select": "^5.7.4",
+    "recharts": "^2.7.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^1.2.1",
+    "tailwind-merge": "^1.14.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.1.0",
+    "vite": "^4.3.0",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.0"
+  }
+}
+"@ | Out-File -FilePath "package.json" -Encoding UTF8
+
+# Fix postcss.config.js
+Write-Host "Fixing postcss.config.js..." -ForegroundColor Yellow
+@"
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+"@ | Out-File -FilePath "postcss.config.js" -Encoding UTF8
+
+# Fix tailwind.config.js
+Write-Host "Fixing tailwind.config.js..." -ForegroundColor Yellow
+@"
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+      },
+    },
+  },
+  plugins: [],
+}
+"@ | Out-File -FilePath "tailwind.config.js" -Encoding UTF8
+
+Write-Host "Installing dependencies..." -ForegroundColor Yellow
+npm install
+
+Write-Host "✅ All fixed!" -ForegroundColor Green
+Write-Host "Now run: npm run dev" -ForegroundColor Yellow
