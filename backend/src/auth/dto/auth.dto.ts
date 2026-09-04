@@ -10,6 +10,7 @@ export class RegisterDto {
   @IsEmail()
   email: string;
 
+
   @IsString()
   @MaxLength(400)
   address: string;
