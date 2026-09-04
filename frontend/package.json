@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "build": "npx nest build",
-    "start": "node dist/main.js",
-    "start:dev": "npx nest start --watch",
-    "start:debug": "npx nest start --debug --watch",
-    "start:prod": "node dist/main.js"
+    "start": "node dist/main.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
