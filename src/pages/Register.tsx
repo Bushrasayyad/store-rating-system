@@ -14,7 +14,7 @@ interface RegisterForm {
 
 export const Register: React.FC = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { isSubmitting } } = useForm<RegisterForm>();
+  const { register, handleSubmit, watch, formState: { isSubmitting } } = useForm<RegisterForm>();
 
   const onSubmit = async (data: RegisterForm) => {
     try {
